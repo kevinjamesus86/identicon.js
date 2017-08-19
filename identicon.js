@@ -187,7 +187,13 @@
         },
 
         getBase64: function(){
-            return btoa(this.getDump());
+            if (btoa) {
+                return btoa(this.getDump());
+            } else if (Buffer) {
+                return new Buffer(this.getDump(), 'binary').toString('base64');
+            } else {
+                throw 'Cannot generate base64 output';
+            }
         }
     };
 
